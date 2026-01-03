@@ -3,11 +3,12 @@
 ### 📹 Video Demonstration
 Watch the complete walkthrough of E-Notes application:
 
-https://github.com/user-attachments/assets/project-video.mp4
 
-<video src="screenshots/Project Video.mp4" controls></video>
-
----
+<div align="center">
+  <a href="https://drive.google.com/file/d/1j_85LqEtRVHW0NE4kdn2SA8pkHAbptJV/view?usp=drive_link">
+    <img src="https://img.shields.io/badge/▶️_Watch_Demo-Google_Drive-4285F4?style=for-the-badge&logo=google-drive&logoColor=white" alt="Watch Demo"/>
+  </a>
+</div>
 
 ## 📸 Application Screenshots
 
