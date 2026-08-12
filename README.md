@@ -7,6 +7,57 @@
 
 
 
+## 📸 Application Screenshots
+
+### 🏠 Home Page
+The landing page with application overview and navigation.
+
+<img width="1920" height="1080" alt="Home Page" src="https://github.com/user-attachments/assets/5f99a82a-7ab4-4bee-a2f0-d115c1279c6c" />
+
+---
+
+### 🔑 Authentication
+
+#### Login Page
+Secure login with JWT authentication and OAuth2 social login options (Google & GitHub).
+
+<img width="1920" height="1080" alt="Login Page" src="https://github.com/user-attachments/assets/6340f676-523d-4a04-b3c8-ec058eefc762" />
+
+#### Register Page
+User registration form with email validation.
+
+<img width="1920" height="1080" alt="Register Page" src="https://github.com/user-attachments/assets/9d563cb8-86cd-4a82-8571-468a508f8572" />
+
+---
+
+### 📝 Notes Management
+
+#### View Notes
+Dashboard displaying all user notes with edit and delete options.
+
+<img width="1920" height="1080" alt="View Notes" src="https://github.com/user-attachments/assets/30c8d1c3-7c62-48b2-99fd-eb515e288a33" />
+
+#### Add Notes
+Create new notes with title, description, and file attachment support (up to 10MB).
+
+<img width="1920" height="1080" alt="Add Notes" src="https://github.com/user-attachments/assets/786ed15c-eb9d-453d-8c21-464adfe5aec4" />
+
+---
+
+### 👤 User Profile
+User profile page showing account information and notes management access.
+
+<img width="1920" height="1080" alt="Profile Page" src="https://github.com/user-attachments/assets/e3ef866c-7749-4077-9470-34e64c17a9bb" />
+
+---
+
+### ℹ️ About Page
+Information about the application, features, and technology stack.
+
+<img width="1920" height="1080" alt="About Page" src="https://github.com/user-attachments/assets/95bd1fed-7bc1-46d8-9907-7b33f11bb2fb" />
+
+---
+
 # 📝 E-Notes - Secure Digital Note Management System
 
 > A full-stack web application for creating, managing, and organizing your notes securely in the cloud. Built with modern technologies and OAuth2 social authentication.
