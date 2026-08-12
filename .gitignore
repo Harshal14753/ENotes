@@ -18,6 +18,7 @@ Google&GithubKey.txt
 *.crt
 
 # ─── Screenshots folder ───────────────────────────────────────────
+# Media folder (demo video + screenshots) is kept local, not pushed to GitHub
 screenshots/
 
 # ─── Java / Maven (Backend) ───────────────────────────────────────

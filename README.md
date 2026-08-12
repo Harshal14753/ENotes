@@ -5,16 +5,6 @@
 
 ---
 
-## �🎬 Project Demo
-
-### 📹 Video Demonstration
-Watch the complete walkthrough of E-Notes application:
-
-<div align="center">
-  <iframe src="https://drive.google.com/file/d/1j_85LqEtRVHW0NE4kdn2SA8pkHAbptJV/preview" width="640" height="480" allow="autoplay" allowfullscreen></iframe>
-</div>
-
-*Video embedded from Google Drive - click play to watch*
 
 
 ## 📸 Application Screenshots
