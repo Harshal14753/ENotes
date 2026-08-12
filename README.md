@@ -1,14 +1,21 @@
-## 🎬 Project Demo
+## � Live Deployment
+
+- **Frontend:** https://e-notes-frontend.vercel.app
+- **Backend API:** https://e-notes-backend-7mxe.onrender.com
+
+---
+
+## �🎬 Project Demo
 
 ### 📹 Video Demonstration
 Watch the complete walkthrough of E-Notes application:
 
-
 <div align="center">
-  <a href="https://drive.google.com/file/d/1j_85LqEtRVHW0NE4kdn2SA8pkHAbptJV/view?usp=drive_link">
-    <img src="https://img.shields.io/badge/▶️_Watch_Demo-Google_Drive-4285F4?style=for-the-badge&logo=google-drive&logoColor=white" alt="Watch Demo"/>
-  </a>
+  <iframe src="https://drive.google.com/file/d/1j_85LqEtRVHW0NE4kdn2SA8pkHAbptJV/preview" width="640" height="480" allow="autoplay" allowfullscreen></iframe>
 </div>
+
+*Video embedded from Google Drive - click play to watch*
+
 
 ## 📸 Application Screenshots
 
@@ -69,6 +76,7 @@ Information about the application, features, and technology stack.
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.2-brightgreen?style=flat&logo=spring)
 ![React](https://img.shields.io/badge/React-19-blue?style=flat&logo=react)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=flat&logo=mysql)
+![AWS S3](https://img.shields.io/badge/AWS_S3-File_Storage-FF9900?style=flat&logo=amazon-s3&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=flat&logo=jsonwebtokens)
 
 ---
@@ -81,6 +89,7 @@ Information about the application, features, and technology stack.
 - **Backend:** Java 22, Spring Boot 3.3.2, Spring Security, Spring Data JPA
 - **Frontend:** React 19, Vite, Tailwind CSS, DaisyUI
 - **Database:** MySQL 8.0
+- **File Storage:** AWS S3 (Amazon Simple Storage Service)
 - **Authentication:** JWT, OAuth2 (Google & GitHub)
 - **Build Tools:** Maven, npm
 
@@ -95,11 +104,11 @@ E-Notes is a secure digital note management platform where users can:
 ### Key Features:
 - **JWT Authentication** - Stateless token-based authentication
 - **OAuth2 Social Login** - Google and GitHub integration
-- **File Upload System** - Attach documents, images, and files to notes
+- **File Upload System** - Attach documents, images, and files to notes, stored securely in AWS S3
 - **Role-Based Access Control** - Separate User and Admin roles
 - **RESTful API** - Clean and documented API endpoints
 - **Responsive UI** - Works seamlessly on desktop and mobile devices
-- **Secure Storage** - User-isolated file storage system
+- **Secure Storage** - User-isolated file storage in AWS S3 with per-user folder prefixes
 
 ---
 
@@ -113,6 +122,7 @@ E-Notes is a secure digital note management platform where users can:
 | ![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white) | 6.x | Security & Authentication |
 | ![MySQL](https://img.shields.io/badge/MySQL-8.0-00758F?style=for-the-badge&logo=mysql&logoColor=white) | 8.0+ | Database |
 | ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white) | 0.11.5 | Token Authentication |
+| ![AWS S3](https://img.shields.io/badge/AWS_S3-FF9900?style=for-the-badge&logo=amazon-s3&logoColor=white) | SDK 2.x | Cloud File Storage |
 | ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white) | 3.6+ | Build & Dependency Management |
 
 ### Frontend Technologies
@@ -146,10 +156,11 @@ E-Notes is a secure digital note management platform where users can:
 
 ### 📎 File Management
 - ✅ Upload files with notes (max 10MB per file)
-- ✅ Multiple file format support
-- ✅ User-isolated file storage
-- ✅ Automatic directory creation per user
-- ✅ File deletion with note removal
+- ✅ Multiple file format support (PDF, JPG, JPEG, PNG, WEBP)
+- ✅ Cloud storage with **AWS S3** (Amazon Simple Storage Service)
+- ✅ User-isolated storage using `{user-email}/` folder prefixes inside the S3 bucket
+- ✅ UUID-based file naming to prevent name collisions
+- ✅ File deletion from S3 when a note is removed
 
 ### 👤 User Management
 - ✅ User registration and login
@@ -242,16 +253,17 @@ E-Notes is a secure digital note management platform where users can:
 ┌─────────────────────────────────────────────────────────────────────┐
 │                       FILE STORAGE LAYER                             │
 │  ┌───────────────────────────────────────────────────────────────┐  │
-│  │  ENotes-Data Directory                                          │  │
+│  │  AWS S3 Bucket (e-notes) - ap-south-1                         │  │
 │  │  └── {user-email}/                                              │  │
-│  │      └── uploaded-files                                         │  │
+│  │      └── {uuid}-{original-file-name}                            │  │
 │  └───────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────┐
 │                    EXTERNAL SERVICES                                 │
 │  ├── Google OAuth2 API                                              │
-│  └── GitHub OAuth2 API                                              │
+│  ├── GitHub OAuth2 API                                              │
+│  └── AWS S3 (Cloud file storage)                                    │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -289,10 +301,9 @@ Frontend → Protected Route Check → JWT Token Validation
 ```
 User Selects File → Frontend (FormData) 
 → POST /api/user/file/saveNotes (multipart/form-data) 
-→ Backend validates file size 
-→ Create user directory if not exists 
-→ Save file to ENotes-Data/{userEmail}/ 
-→ Save note metadata to database 
+→ Backend validates file size & type (max 5MB, PDF/JPG/PNG/WEBP) 
+→ Upload file to AWS S3 as {userEmail}/{uuid}-{fileName} 
+→ Save note metadata (with S3 object key) to database 
 → Return success response
 ```
 
@@ -308,6 +319,7 @@ Before running the application, ensure you have:
 - ✅ **Maven 3.6+** for backend dependency management
 - ✅ **Node.js 18+** and npm for frontend
 - ✅ **MySQL 8.0+** database server
+- ✅ **AWS account** with an S3 bucket and IAM credentials for cloud file storage
 - ✅ **Git** for version control
 
 ### Step 1: Clone the Repository
@@ -359,6 +371,10 @@ spring.servlet.multipart.enabled=true
 spring.servlet.multipart.max-file-size=10MB
 spring.servlet.multipart.max-request-size=20MB
 
+# AWS S3 Configuration (Cloud File Storage)
+aws.region=ap-south-1
+aws.s3.bucket-name=YOUR_S3_BUCKET_NAME
+
 # Google OAuth2 Configuration
 spring.security.oauth2.client.registration.google.client-id=YOUR_GOOGLE_CLIENT_ID
 spring.security.oauth2.client.registration.google.client-secret=YOUR_GOOGLE_CLIENT_SECRET
@@ -373,9 +389,23 @@ spring.security.oauth2.client.registration.github.scope=read:user,user:email
 
 # JWT Secret Key (Generate your own using SecretKeyGenerator.java)
 jwt.secret=YOUR_JWT_SECRET_KEY
+
+# AWS Credentials (set as environment variables: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 ```
 
-3. Install dependencies and build:
+3. Create an AWS S3 bucket for file storage:
+   1. Go to the [AWS S3 Console](https://console.aws.amazon.com/s3/)
+   2. Click **Create bucket**, name it (e.g. `e-notes`), and select a region (the app defaults to `ap-south-1`)
+   3. Keep the default settings — block all public access (files are accessed privately by the backend)
+   4. Create an IAM user/role with `s3:PutObject`, `s3:GetObject`, and `s3:DeleteObject` permissions on the bucket
+   5. Set your AWS credentials as environment variables (the app uses the default AWS credential chain):
+   ```bash
+   export AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
+   export AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
+   ```
+   Update `aws.region` and `aws.s3.bucket-name` in `application.properties` to match your bucket.
+
+4. Install dependencies and build:
 ```bash
 mvn clean install
 ```
@@ -499,6 +529,8 @@ UPDATE user SET role = 'ROLE_ADMIN' WHERE email = 'your-email@example.com';
 | PUT | `/api/user/file/updateNotes/{id}` | Update existing note | Path: `id`, `multipart/form-data`: `title`, `description`, `file` | `"Note updated successfully"` |
 | GET | `/api/user/deleteNotes/{id}` | Delete note by ID | Path: `id` | Redirect or success message |
 | GET | `/api/user/editNotes/{id}` | Get note for editing | Path: `id` | Notes object |
+
+> **Note:** All attached files are stored in an **AWS S3 bucket** under the `{userEmail}/{uuid}-{fileName}` object key pattern.
 
 ### Admin Endpoints (Requires ROLE_ADMIN)
 
